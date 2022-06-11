@@ -21,7 +21,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body \r\n{\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n\r\n}", "",{"version":3,"sources":["webpack://./src/Pixi2Css.css"],"names":[],"mappings":"AAAA;;IAEI,aAAa;IACb,sBAAsB;IACtB,mBAAmB;;AAEvB","sourcesContent":["body \r\n{\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n\r\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "body \r\n{\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n\r\n}\r\n\r\n", "",{"version":3,"sources":["webpack://./src/Pixi2Css.css"],"names":[],"mappings":"AAAA;;IAEI,aAAa;IACb,sBAAsB;IACtB,mBAAmB;;AAEvB","sourcesContent":["body \r\n{\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n\r\n}\r\n\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -578,6 +578,139 @@ class Bullets
 
 /***/ }),
 
+/***/ "./src/Pixi2.js":
+/*!**********************!*\
+  !*** ./src/Pixi2.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "backImage": () => (/* binding */ backImage),
+/* harmony export */   "enemyImage": () => (/* binding */ enemyImage),
+/* harmony export */   "gameLoop": () => (/* binding */ gameLoop),
+/* harmony export */   "spriteImage": () => (/* binding */ spriteImage)
+/* harmony export */ });
+/* harmony import */ var _Player_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Player.js */ "./src/Player.js");
+/* harmony import */ var _bulletController_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bulletController.js */ "./src/bulletController.js");
+/* harmony import */ var _Pixi2Css_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Pixi2Css.css */ "./src/Pixi2Css.css");
+
+
+
+
+
+const canvas = document.getElementById("Game");
+const ctx = canvas.getContext("2d");
+
+
+
+
+canvas.width = 1500;
+canvas.height = 700;
+
+const backImage = new Image();
+backImage.src = "resources/backround.jpg";
+
+const spriteImage = new Image();
+spriteImage.src = "resources/player.png";
+
+const enemyImage = new Image();
+enemyImage.src = "resources/enemy.png";
+
+let gameOver = document.querySelector('div');
+gameOver.style.display = "none";
+
+const NumberofEnemys = 10;
+const EnemyArray = [];
+let score = 0;
+let lives = 10;
+
+const bulletController = new _bulletController_js__WEBPACK_IMPORTED_MODULE_1__["default"](canvas);
+const sprite = new _Player_js__WEBPACK_IMPORTED_MODULE_0__["default"](canvas.width/2, 600, bulletController);
+
+class Enemy
+{
+    constructor() 
+    {
+        this.x = Math.random() * 1100,
+        this.y = 50,
+        this.width = 70,
+        this.height = 60,
+        this.radius = 70,
+        this.counted = false
+ 
+    }
+
+    Update()
+    {
+        this.y++;
+        if(this.y>700)
+        {
+            this.y = 0;
+            lives--;
+        }
+
+        
+    }
+
+    draw()
+    {
+        ctx.drawImage(enemyImage, this.x, this.y, this.width, this.height);
+    }
+
+    
+};
+for(let i=0; i<NumberofEnemys; i++)
+{
+    EnemyArray.push(new Enemy());
+}
+function gameLoop()
+{
+    ctx.drawImage(backImage, 0, 0,canvas.width, canvas.height);
+    ctx.drawImage(spriteImage, sprite.x, sprite.y, spriteImage.width, sprite.height);
+    bulletController.draw(ctx);
+    sprite.draw(ctx);
+    EnemyArray.forEach(enemy => 
+        {
+            enemy.Update();
+            enemy.draw();
+            if(bulletController.collideWith(enemy))
+            {
+                const index = EnemyArray.indexOf(enemy);
+                EnemyArray.splice(index, 1);
+                score++;
+                
+            }
+            if(sprite.collideWith(enemy))
+            {
+                const index = EnemyArray.indexOf(enemy);
+                EnemyArray.splice(index, 1);
+                score++;
+                lives--;
+
+            }
+
+
+        })
+    ctx.fillStyle = "white" ;   
+    ctx.fillText("Score: " + score, 50, 50);
+    ctx.fillText("Lives: " + lives, 100, 50);
+    
+
+    if(lives == 0)
+    {
+        canvas.style.display = "none";
+        gameOver.style.display = "block";
+    }
+
+   
+}
+
+
+
+
+/***/ }),
+
 /***/ "./src/Player.js":
 /*!***********************!*\
   !*** ./src/Player.js ***!
@@ -892,125 +1025,18 @@ var __webpack_exports__ = {};
   !*** ./src/index.js ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "backImage": () => (/* binding */ backImage),
-/* harmony export */   "enemyImage": () => (/* binding */ enemyImage),
-/* harmony export */   "spriteImage": () => (/* binding */ spriteImage)
-/* harmony export */ });
-/* harmony import */ var _Player_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Player.js */ "./src/Player.js");
-/* harmony import */ var _bulletController_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bulletController.js */ "./src/bulletController.js");
-/* harmony import */ var _Pixi2Css_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Pixi2Css.css */ "./src/Pixi2Css.css");
+/* harmony import */ var _Pixi2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Pixi2 */ "./src/Pixi2.js");
 
 
-
-
-const canvas = document.getElementById("Game");
-const ctx = canvas.getContext("2d");
-
-canvas.width = 1500;
-canvas.height = 700;
-
-const backImage = new Image();
-backImage.src = "resources/backround.jpg";
-
-const spriteImage = new Image();
-spriteImage.src = "resources/player.png";
-
-const enemyImage = new Image();
-enemyImage.src = "resources/enemy.png";
-
-const NumberofEnemys = 10;
-const EnemyArray = [];
-let score = 0;
-let lives = 10;
-
-const bulletController = new _bulletController_js__WEBPACK_IMPORTED_MODULE_1__["default"](canvas);
-const sprite = new _Player_js__WEBPACK_IMPORTED_MODULE_0__["default"](canvas.width/2, 600, bulletController);
-
-class Enemy
+let button = document.querySelector('button');
+button.onclick = () => 
 {
-    constructor() 
-    {
-        this.x = Math.random() * 1100,
-        this.y = 50,
-        this.width = 70,
-        this.height = 60,
-        this.radius = 70,
-        this.counted = false
- 
-    }
+    setInterval(_Pixi2__WEBPACK_IMPORTED_MODULE_0__.gameLoop, 1000/60);
+    button.style.display = "none";
 
-    Update()
-    {
-        this.y++;
-        if(this.y>700)
-        {
-            this.y = 0;
-            lives--;
-        }
-
-        
-    }
-
-    draw()
-    {
-        ctx.drawImage(enemyImage, this.x, this.y, this.width, this.height);
-    }
-
-    
 };
-for(let i=0; i<NumberofEnemys; i++)
-{
-    EnemyArray.push(new Enemy());
-}
-
-
-
- function gameLoop()
-{
-    ctx.drawImage(backImage, 0, 0,canvas.width, canvas.height);
-    ctx.drawImage(spriteImage, sprite.x, sprite.y, spriteImage.width, sprite.height);
-    bulletController.draw(ctx);
-    sprite.draw(ctx);
-    EnemyArray.forEach(enemy => 
-        {
-            enemy.Update();
-            enemy.draw();
-            if(bulletController.collideWith(enemy))
-            {
-                const index = EnemyArray.indexOf(enemy);
-                EnemyArray.splice(index, 1);
-                score++;
-                
-            }
-            if(sprite.collideWith(enemy))
-            {
-                const index = EnemyArray.indexOf(enemy);
-                EnemyArray.splice(index, 1);
-                score++;
-                lives--;
-
-            }
-
-
-        })
-    ctx.fillStyle = "white" ;   
-    ctx.fillText("Score: " + score, 50, 50);
-    ctx.fillText("Lives: " + lives, 100, 50);
-
-    if(lives == 0)
-    {
-        alert("Game Over");
-    }
-   
-   
-}
-setInterval(gameLoop, 1000/60);
-
-
-
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=main.bf1ce0a491749b64fa0b.js.map
+//# sourceMappingURL=main.c80c4f967462f7a91828.js.map
