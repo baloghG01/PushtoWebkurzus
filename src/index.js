@@ -1,5 +1,6 @@
 import Player from "./Player.js";
 import BulletController from "./bulletController.js";
+import "./Pixi2Css.css";
 
 const canvas = document.getElementById("Game");
 const ctx = canvas.getContext("2d");
@@ -7,13 +8,13 @@ const ctx = canvas.getContext("2d");
 canvas.width = 1500;
 canvas.height = 700;
 
-const backImage = new Image();
+export const backImage = new Image();
 backImage.src = "resources/backround.jpg";
 
-const spriteImage = new Image();
+export const spriteImage = new Image();
 spriteImage.src = "resources/player.png";
 
-const enemyImage = new Image();
+export const enemyImage = new Image();
 enemyImage.src = "resources/enemy.png";
 
 const NumberofEnemys = 10;
@@ -63,7 +64,7 @@ for(let i=0; i<NumberofEnemys; i++)
 
 
 
-function gameLoop()
+ function gameLoop()
 {
     ctx.drawImage(backImage, 0, 0,canvas.width, canvas.height);
     ctx.drawImage(spriteImage, sprite.x, sprite.y, spriteImage.width, sprite.height);
